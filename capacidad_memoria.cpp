@@ -80,13 +80,13 @@ double CalcularSolapamiento(int N, double a, const vector<int>& s, const vector<
 }
 
 // --- INICIALIZACIÓN CON PATRÓN RUIDOSO ---
-void InicializarConPatronRuidoso(vector<int>& s, int N, const vector<vector<int>>& patrones, int mu_index, double nivel_ruido, mt19937& gen) {
+void InicializarConPatronRuidoso(vector<int>& s, int N, const vector<vector<int>>& patrones, int mu, double nivel_ruido, mt19937& gen) {
     uniform_real_distribution<> dis(0.0, 1.0);
     for (int i = 0; i < N; i++) {
         if (dis(gen) < nivel_ruido) {
-            s[i] = 1 - patrones[mu_index][i]; // Invertimos el bit
+            s[i] = 1 - patrones[mu][i]; // Invertimos el bit
         } else {
-            s[i] = patrones[mu_index][i];
+            s[i] = patrones[mu][i];
         }
     }
     
