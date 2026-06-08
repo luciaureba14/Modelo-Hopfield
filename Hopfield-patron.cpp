@@ -212,7 +212,7 @@ int main() {
      for(int i = 0; i < N; i++) {
             f_Hopfield << s[i] << " ";
         }
-        f_Hopfield << "\n"; // Un salto de línea al final de cada configuración completa (rellenamos una fila de s por cada paso monte carlo)
+        f_Hopfield << "\n"; 
          
     
     // Guardamos el solapamiento en cada paso Monte Carlo junto con el tiempo
