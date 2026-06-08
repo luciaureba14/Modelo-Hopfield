@@ -13,12 +13,13 @@ void CargarPatron(const string& nombre_archivo, vector<int>& patron, int& N_calc
     ifstream archivo(nombre_archivo);
     patron.clear(); // Limpiamos el vector antes de empezar
 
+    // Comprobamos si el archivo existe
     if (!archivo.is_open()) {
         cerr << "Error al abrir el archivo: " << nombre_archivo << endl;
-        return; // Salimos de la función sin llenar el vector
+        return; 
     }
 
-    char c;
+    char c; // Convertimos los caracteres en numeros
     while (archivo >> c) {
         if (c == '1') {
             patron.push_back(1);
@@ -28,6 +29,7 @@ void CargarPatron(const string& nombre_archivo, vector<int>& patron, int& N_calc
     }
 
     N_calculado = patron.size();
+    cout<< "El valor de n es: " << sqrt(N_calculado) << endl;
     archivo.close();
 }
 
@@ -122,16 +124,16 @@ double CalcularMatrizCorrelacion(int N, double a, const vector<vector<int>>& pat
 }
 
 // --- INICIALIZACIÓN CON PATRÓN RUIDOSO ---
-void InicializarConPatronRuidoso(vector<int>& s, int N, const vector<vector<int>>& patrones, int mu_index, double nivel_ruido, mt19937& gen) {
+void InicializarConPatronRuidoso(vector<int>& s, int N, const vector<vector<int>>& patrones, int mu, double nivel_ruido, mt19937& gen) {
     uniform_real_distribution<> dis(0.0, 1.0);
     for (int i = 0; i < N; i++) {
         if (dis(gen) < nivel_ruido) {
-            s[i] = 1 - patrones[mu_index][i]; // Invertimos el bit
+            s[i] = 1 - patrones[mu][i]; // Invertimos el bit
         } else {
-            s[i] = patrones[mu_index][i];
+            s[i] = patrones[mu][i];
         }
     }
-    cout << "Red inicializada con patron " << mu_index << " (ruido: " << nivel_ruido * 100 << "%)" << endl;
+    cout << "Red inicializada con patron " << mu << " (ruido: " << nivel_ruido * 100 << "%)" << endl;
 }
 
 // --- INICIALIZACIÓN CON PATRÓN ALEATORIO ---
@@ -149,7 +151,7 @@ void InicializarPatronAleatorio(vector<int>& s, int N,  mt19937& gen) {
 
 int main() {
     
-    vector<string> archivos = {"oso.txt","dib_arbol.txt", "balon.txt", "p_estrella.txt"}; 
+    vector<string> archivos = {"p0.txt","p1.txt"}; 
     vector<vector<int>> patrones;
     int N = 0;
 
@@ -166,7 +168,7 @@ int main() {
             cerr << "Error al cargar el patrón desde " << nombre << ". Saliendo..." << endl;
             return 1; // 
         }
-        patrones.push_back(patron_i); // Agregamos el patrón cargado a la lista de patrones
+        patrones.push_back(patron_i); // Añadimos el patrón cargado a la lista de patrones
         N = n_i; // Asumimos que todos los patrones tienen el mismo tamaño 
     } 
     
@@ -184,13 +186,13 @@ int main() {
     Regla_Hebb(N, a, w, theta, patrones);
 
     // --- Parámetros de la simulación ---
-    const double T = 0.001;      // Temperatura (ruido térmico)
+    const double T = 0.001;      // Temperatura 
     const int Pasos_MC = 50;   // Pasos de Monte Carlo
     const double Ruido = 0.3; // 30% de ruido inicial
 
     // Abrimos los archivos donde vamos a guardar los datos
     ofstream f_Hopfield("configuraciones_MC.txt");
-    ofstream f_solap("solap_p_patrones_corregido.txt");
+    ofstream f_solap("solap_prueba_.txt");
 
 
     // Inicializamos la red con el primer patrón ruidoso
@@ -255,7 +257,7 @@ int main() {
 
     f_Hopfield.close();
     f_solap.close();
-    cout << "Simulacion completada. Resultados guardados en 'solapamientos.txt'" << endl;
+    cout << "Simulacion completada." << endl;
 
     return 0;
 }

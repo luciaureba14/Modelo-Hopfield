@@ -128,7 +128,7 @@ int main() {
         double a;
         vector<vector<double>> w;
         vector<double> theta;
-        Regla_Hebb(N, a, w, theta, patrones); // Entrena la red con ellos
+        Regla_Hebb(N, a, w, theta, patrones); // Aplicamos la regla de Hebb   
 
         int exitos_P = 0;
 

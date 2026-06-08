@@ -35,6 +35,7 @@ void CargarPatrones(const string& f_patron, vector<int>& patron, int& N_calculad
             }
         }
     N_calculado = patron.size(); // Actualizamos el tamaño N
+    cout << "El valor de n es: " << sqrt(N_calculado) << endl;
     archivo.close();
 }
 
